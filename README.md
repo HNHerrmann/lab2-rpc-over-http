@@ -2,29 +2,36 @@
 
 Please, go to the [Wiki](https://github.com/UNIZAR-30246-WebEngineering/lab2-rpc-over-http/wiki) in order to get the instructions for this assignment.
 
-## Primary goal
+## Solution
 
-Discover how to run the `server` and the `client`. 
-Note that the `server` requires code derived from `translator.xsd`, 
-and the `client` requires code derived from a `wsdl` file published by the `server`. 
+To run the server, it's needed to obtain the generated classes TranslationRequest and TranslationResponse.
 
-Next you must ensure that the client show something similar to:
+To generate those classes from the translator.xsd file, we have to apply the command on the Server:
 ```
-Result of translating [hello] is [hola].
+.\gradlew genJaxb
 ```
 
-## Secondary goal (:gift:)
+Once the classes are genereated we can run the Server:
+```
+.\gradlew bootRun
+```
 
-Some ideas for obtaining a :gift: if you are the first that:
+Note that manually applying the genJaxb task is not necessary as the bootRun task has been programmed to run the genJaxb task itself.
 
-- **The server side**: Test the server side [properly](https://docs.spring.io/spring-ws/docs/3.1.1/reference/html/#_server_side_testing)
-- **Back to the future**: Upgrade to WSDL 2.0 and SOAP 1.2
-- **Armored SOAP**: Secure the endpoint [WS-Security](https://docs.spring.io/spring-ws/docs/3.1.1/reference/html/#security)
-- **Let's contract**: Re-implement the project following [Writing Contract-First Web Services tutorial](https://docs.spring.io/spring-ws/docs/3.1.1/reference/html/#tutorial)
-- **Do the Google way**: Re-implement the project with [gRPC](https://yidongnan.github.io/grpc-spring-boot-starter/en/)
-- **Do the Facebook way**: Re-implement the project with [GraphQL](https://www.graphql-java.com/tutorials/getting-started-with-spring-boot/)
+The server will publish the classes on a .wdsl file. So the client will need to download that wdsl to be able to generate those clases.
 
-User name | NIA | CI | Solution |Score
-----------|-----|----------|-----|----
-[UNIZAR-30246-WebEngineering](https://github.com/UNIZAR-30246-WebEngineering/lab2-rpc-over-http) |30246 | [![Build Status](https://github.com/UNIZAR-30246-WebEngineering/lab2-rpc-over-http/actions/workflows/ci.yml/badge.svg)](https://github.com/UNIZAR-30246-WebEngineering/lab2-rpc-over-http/actions/workflows/ci.yml) | [instructions](https://github.com/UNIZAR-30246-WebEngineering/lab2-rpc-over-http/wiki)
-your name | your nia | your CI status | your solution
+For that purpose, while the Server is runnin, apply the genJaxb task on the client.
+```
+.\gradlew genJaxb
+```
+
+And then just run the client as well
+```
+.\gradlew bootRun
+```
+
+
+As additional notes, it was necessary to change the jvm used by default to a java 11 and used gradle 7.1 instead of 7.2
+
+The server has also been completed to return a fixed message when the translate function is called.
+
